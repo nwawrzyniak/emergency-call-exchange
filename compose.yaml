@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    container_name: emergency-call-exchange
+    environment:
+      - DB_PATH=${DB_PATH}
+      - JWT_SECRET=${JWT_SECRET}
+      - NODE_ENV=${NODE_ENV}
+    restart: unless-stopped
+    networks:
+      - traefik-network
+    volumes:
+      - ./sqlite-data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sos.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.routers.sos.entrypoints=websecure"
+      - "traefik.http.routers.sos.tls=true"
+      - "traefik.http.services.sos.loadbalancer.server.port=${APP_PORT}"
+      - "traefik.docker.network=traefik-network"
+
+networks:
+  traefik-network:
+    external: true
