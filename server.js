@@ -1,21 +1,24 @@
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { sequelize } from './models/index.js';
 
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const path = require('path');
-const { sequelize } = require('./models');
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import callRoutes from './routes/calls.js';
 
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const callRoutes = require('./routes/calls');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
 // Security middleware
 app.use(helmet({
-  contentSecurityPolicy: false, // Disable CSP for now, or configure it properly
+  contentSecurityPolicy: false,
 }));
 
 // CORS configuration
@@ -25,9 +28,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -62,7 +63,7 @@ app.get('/api', (req, res) => {
 
 // Serve index.html for all non-API routes (SPA support)
 app.get('*path', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
 // Error handling
@@ -79,7 +80,7 @@ sequelize.sync({ alter: true })
     console.log('Database synced successfully');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-      console.log(`Serving static files from: ${path.join(__dirname, 'public')}`);
+      console.log(`Serving static files from: ${join(__dirname, 'public')}`);
     });
   })
   .catch(err => {
@@ -87,4 +88,4 @@ sequelize.sync({ alter: true })
     process.exit(1);
   });
 
-module.exports = app;
+export default app;
