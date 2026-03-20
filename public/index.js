@@ -1,6 +1,23 @@
 // API base URL
 const API_BASE = '';
 
+// Load external HTML components
+async function loadComponents() {
+  const components = document.querySelectorAll('[data-component]');
+  for (const component of components) {
+    const path = component.getAttribute('data-component');
+    try {
+      const response = await fetch(path);
+      if (!response.ok) throw new Error(`Failed to load ${path}`);
+      const html = await response.text();
+      component.innerHTML = html;
+    } catch (error) {
+      console.error(`Error loading component ${path}:`, error);
+      component.innerHTML = `<p>Error loading component</p>`;
+    }
+  }
+}
+
 // Utility functions
 function showAlert(message, type = 'error') {
   const alertDiv = document.getElementById('authAlert');
@@ -110,35 +127,47 @@ function showApp() {
   document.getElementById('userName').textContent = user.firstName + ' ' + user.lastName;
 }
 
-// Form handlers
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-  login(email, password);
-});
-
-document.getElementById('registerForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const userData = {
-    email: document.getElementById('regEmail').value,
-    password: document.getElementById('regPassword').value,
-    firstName: document.getElementById('regFirstName').value,
-    lastName: document.getElementById('regLastName').value,
-    phoneNumber: document.getElementById('regPhone').value,
-    age: parseInt(document.getElementById('regAge').value),
-    gender: document.getElementById('regGender').value
-  };
-  register(userData);
-});
-
-// Initialize
-if (localStorage.getItem('token')) {
-  showApp();
-  loadDashboard();
-} else {
-  showAuth();
+// Attach form handlers after components are loaded
+function attachFormHandlers() {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      login(email, password);
+    });
+  }
+  
+  if (registerForm) {
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const userData = {
+        email: document.getElementById('regEmail').value,
+        password: document.getElementById('regPassword').value,
+        firstName: document.getElementById('regFirstName').value,
+        lastName: document.getElementById('regLastName').value,
+        phoneNumber: document.getElementById('regPhone').value,
+        age: parseInt(document.getElementById('regAge').value),
+        gender: document.getElementById('regGender').value
+      };
+      register(userData);
+    });
+  }
 }
+
+// Initialize - Load components first, then check auth state
+loadComponents().then(() => {
+  attachFormHandlers();
+  if (localStorage.getItem('token')) {
+    showApp();
+    loadDashboard();
+  } else {
+    showAuth();
+  }
+});
 
 // Placeholder for other functions
 function loadDashboard() {
