@@ -420,10 +420,6 @@ input:checked + .slider:before {
   border-radius: 10px;
 }
 
-.input-readonly {
-  background: #f3f4f6;
-}
-
 .rating-modal-body {
   text-align: center;
 }

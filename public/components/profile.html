@@ -3,6 +3,10 @@
     <h2 class="section-heading">My Profile</h2>
     <div id="profileAlert"></div>
     <form id="profileForm">
+      <div class="form-group">
+        <label>Username</label>
+        <div id="profileUsername" style="padding: 10px; background-color: #f5f5f5; border-radius: 4px; border: 1px solid #ddd;"></div>
+      </div>
       <div class="grid">
         <div class="form-group">
           <label for="profileFirstName">First Name</label>
@@ -22,16 +26,16 @@
         <input type="number" id="profileAge" title="Age (must be 18 or older)" placeholder="Age" required min="18">
       </div>
       <div class="form-group">
-        <label for="profileEmail">Email (readonly)</label>
-        <input type="email" id="profileEmail" title="Email address" readonly class="input-readonly">
+        <label">Email: </label>
+        <label id="profileEmail" title="Email address"></label>
       </div>
       <div class="form-group">
-        <label for="profileGender">Gender (readonly)</label>
-        <input type="text" id="profileGender" title="Gender" readonly class="input-readonly">
+        <label">Gender: </label>
+        <label id="profileGender" title="Gender"></label>
       </div>
       <div class="form-group">
-        <label for="profileRole">Role (readonly)</label>
-        <input type="text" id="profileRole" title="Account role" readonly class="input-readonly">
+        <label>Role: </label>
+        <label id="profileRole" title="Account role"></label>
       </div>
       <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>

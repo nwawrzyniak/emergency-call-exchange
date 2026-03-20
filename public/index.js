@@ -37,6 +37,11 @@ function showSection(section) {
 
   // Show selected section
   document.getElementById(section + 'Section').classList.remove('hidden');
+  
+  // Load profile data if profile section is being shown
+  if (section === 'profile') {
+    loadProfile();
+  }
 }
 
 function switchAuthTab(tab) {
@@ -170,6 +175,39 @@ loadComponents().then(() => {
 // Placeholder for other functions
 function loadDashboard() {
   // Load user stats, etc.
+}
+
+function loadProfile() {
+  const userData = JSON.parse(localStorage.getItem('user'));
+  if (userData) {
+    // Populate username field with email
+    document.getElementById('profileUsername').textContent = userData.email;
+    
+    // Populate other profile fields
+    document.getElementById('profileFirstName').value = userData.firstName || '';
+    document.getElementById('profileLastName').value = userData.lastName || '';
+    document.getElementById('profileEmail').innerHTML = userData.email || '';
+    document.getElementById('profileAge').value = userData.age || '';
+    document.getElementById('profileGender').innerHTML = userData.gender || '';
+    document.getElementById('profileRole').innerHTML = userData.role || '';
+    
+    // Populate phone number if available (from stored profile data)
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetch(API_BASE + '/api/users/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          document.getElementById('profilePhone').value = data.user.phoneNumber || '';
+        }
+      })
+      .catch(err => console.error('Error loading profile:', err));
+    }
+  }
 }
 
 function toggleAvailability() {
