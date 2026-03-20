@@ -1,0 +1,72 @@
+<div id="dashboardSection">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="statRequests">0</div>
+      <div class="stat-label">My Requests</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statCalls">0</div>
+      <div class="stat-label">Calls Made</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statRating">0.0</div>
+      <div class="stat-label">My Rating</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statAvailable">0</div>
+      <div class="stat-label">Available Calls</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section-heading">Request an Emergency Call</h2>
+    <form id="requestForm">
+      <div class="form-group">
+        <label for="callTime">Call Time</label>
+        <input type="datetime-local" id="callTime" title="Scheduled call time" required>
+      </div>
+      <div class="form-group">
+        <label for="scenario">Scenario</label>
+        <select id="scenario" title="Call scenario">
+          <option value="date-escape">Date Escape</option>
+          <option value="emergency">Emergency</option>
+          <option value="work-meeting">Work Meeting</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="contactName">Suggested Contact Name (what they should call you)</label>
+        <input type="text" id="contactName" title="Suggested contact name" placeholder="e.g. Aunt Betty"
+          value="Aunt Betty">
+      </div>
+      <div class="grid">
+        <div class="form-group">
+          <label for="prefGender">Preferred Gender</label>
+          <select id="prefGender" title="Preferred caller gender">
+            <option value="any">Any</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prefAgeMin">Age Range</label>
+          <div class="age-range-row">
+            <input type="number" id="prefAgeMin" title="Minimum preferred age" placeholder="Min" min="18" value="18"
+              class="age-input-sm">
+            <span>to</span>
+            <input type="number" id="prefAgeMax" title="Maximum preferred age" placeholder="Max" max="120" value="120"
+              class="age-input-sm">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="notes">Additional Notes (optional)</label>
+        <textarea id="notes" title="Additional notes or instructions" rows="3" maxlength="500"
+          placeholder="Any specific instructions..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Request Call</button>
+    </form>
+  </div>
+</div>

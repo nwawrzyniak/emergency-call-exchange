@@ -12,283 +12,35 @@
   <!-- Auth Container -->
   <div id="authContainer" class="auth-container">
     <div class="card">
-      <h1 class="main-h1">Emergency Call Exchange</h1>
-
-      <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchAuthTab('login')" type="button">Login</button>
-        <button class="tab-btn" onclick="switchAuthTab('register')" type="button">Register</button>
-      </div>
-
-      <div id="authAlert"></div>
+      <!-- Insert auth HTML here -->
 
       <!-- Login Form -->
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email</label>
-          <input type="email" id="loginEmail" title="Email address" placeholder="you@example.com" required>
-        </div>
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" title="Password" placeholder="Your password" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Login</button>
-      </form>
+      <!-- Insert login HTML here -->
 
       <!-- Register Form -->
-      <form id="registerForm" class="hidden">
-        <div class="form-group">
-          <label for="regEmail">Email</label>
-          <input type="email" id="regEmail" title="Email address" placeholder="you@example.com" required>
-        </div>
-        <div class="form-group">
-          <label for="regPassword">Password</label>
-          <input type="password" id="regPassword" title="Password (minimum 6 characters)" placeholder="Minimum 6 characters" required minlength="6">
-        </div>
-        <div class="grid">
-          <div class="form-group">
-            <label for="regFirstName">First Name</label>
-            <input type="text" id="regFirstName" title="First name" placeholder="First name" required>
-          </div>
-          <div class="form-group">
-            <label for="regLastName">Last Name</label>
-            <input type="text" id="regLastName" title="Last name" placeholder="Last name" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="regPhone">Phone Number</label>
-          <input type="tel" id="regPhone" title="Phone number" placeholder="+1 234 567 8900" required>
-        </div>
-        <div class="grid">
-          <div class="form-group">
-            <label for="regAge">Age</label>
-            <input type="number" id="regAge" title="Age (must be 18 or older)" placeholder="Age" required min="18">
-          </div>
-          <div class="form-group">
-            <label for="regGender">Gender</label>
-            <select id="regGender" title="Gender" required>
-              <option value="">Select...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="non-binary">Non-binary</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Register</button>
-      </form>
+      <!-- Insert register HTML here -->
     </div>
   </div>
 
   <!-- Main App Container -->
   <div id="appContainer" class="container hidden">
-    <div class="header">
-      <div class="logo">📞 Emergency Call Exchange</div>
-      <div class="user-info">
-        <span id="userName"></span>
-        <button class="btn btn-secondary" onclick="showSection('dashboard')">Dashboard</button>
-        <button class="btn btn-secondary" onclick="showSection('myRequests')">My Requests</button>
-        <button class="btn btn-secondary" onclick="showSection('availableCalls')">Available Calls</button>
-        <button class="btn btn-secondary" onclick="showSection('profile')">Profile</button>
-        <button class="btn btn-danger" onclick="logout()">Logout</button>
-      </div>
-    </div>
+    <!-- Insert header HTML here -->
 
     <!-- Dashboard Section -->
-    <div id="dashboardSection">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="statRequests">0</div>
-          <div class="stat-label">My Requests</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statCalls">0</div>
-          <div class="stat-label">Calls Made</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statRating">0.0</div>
-          <div class="stat-label">My Rating</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statAvailable">0</div>
-          <div class="stat-label">Available Calls</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2 class="section-heading">Request an Emergency Call</h2>
-        <form id="requestForm">
-          <div class="form-group">
-            <label for="callTime">Call Time</label>
-            <input type="datetime-local" id="callTime" title="Scheduled call time" required>
-          </div>
-          <div class="form-group">
-            <label for="scenario">Scenario</label>
-            <select id="scenario" title="Call scenario">
-              <option value="date-escape">Date Escape</option>
-              <option value="emergency">Emergency</option>
-              <option value="work-meeting">Work Meeting</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="contactName">Suggested Contact Name (what they should call you)</label>
-            <input type="text" id="contactName" title="Suggested contact name" placeholder="e.g. Aunt Betty" value="Aunt Betty">
-          </div>
-          <div class="grid">
-            <div class="form-group">
-              <label for="prefGender">Preferred Gender</label>
-              <select id="prefGender" title="Preferred caller gender">
-                <option value="any">Any</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="non-binary">Non-binary</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="prefAgeMin">Age Range</label>
-              <div class="age-range-row">
-                <input type="number" id="prefAgeMin" title="Minimum preferred age" placeholder="Min" min="18" value="18" class="age-input-sm">
-                <span>to</span>
-                <input type="number" id="prefAgeMax" title="Maximum preferred age" placeholder="Max" max="120" value="120" class="age-input-sm">
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="notes">Additional Notes (optional)</label>
-            <textarea id="notes" title="Additional notes or instructions" rows="3" maxlength="500" placeholder="Any specific instructions..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary btn-full">Request Call</button>
-        </form>
-      </div>
-    </div>
+    <!-- Insert dashboard HTML here -->
 
     <!-- My Requests Section -->
-    <div id="myRequestsSection" class="hidden">
-      <div class="card">
-        <h2 class="section-heading">My Call Requests</h2>
-        <div id="requestsList"></div>
-      </div>
-    </div>
+    <!-- Insert my-requests HTML here -->
 
     <!-- Available Calls Section -->
-    <div id="availableCallsSection" class="hidden">
-      <div class="card">
-        <div class="availability-toggle">
-          <label class="switch" for="availabilityToggle">
-            <input type="checkbox" id="availabilityToggle" title="Toggle availability for calls" onchange="toggleAvailability()">
-            <span class="slider"></span>
-          </label>
-          <div>
-            <strong>Available for Calls</strong>
-            <p class="availability-hint">Turn on to see and accept call requests</p>
-          </div>
-        </div>
-
-        <div id="availabilitySettings" class="hidden availability-settings-panel">
-          <h3 class="section-heading-sm">Call Preferences</h3>
-          <div class="form-group">
-            <label>I'm willing to call for:</label>
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input type="checkbox" class="genderPref" value="any" title="Willing to call any gender"> Any Gender
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="genderPref" value="male" title="Willing to call male requesters"> Male
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="genderPref" value="female" title="Willing to call female requesters"> Female
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="genderPref" value="non-binary" title="Willing to call non-binary requesters"> Non-binary
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="genderPref" value="other" title="Willing to call requesters of other genders"> Other
-              </label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="callAgeMin">Age Range I'm willing to call:</label>
-            <div class="age-range-row">
-              <input type="number" id="callAgeMin" title="Minimum age of requester" placeholder="Min" min="18" value="18" class="age-input-md">
-              <span>to</span>
-              <input type="number" id="callAgeMax" title="Maximum age of requester" placeholder="Max" max="120" value="120" class="age-input-md">
-            </div>
-          </div>
-          <button class="btn btn-primary" onclick="saveCallPreferences()">Save Preferences</button>
-        </div>
-
-        <h2 class="section-heading">Available Call Requests</h2>
-        <div id="availableCallsList"></div>
-      </div>
-    </div>
+    <!-- Insert available-calls HTML here -->
 
     <!-- Profile Section -->
-    <div id="profileSection" class="hidden">
-      <div class="card">
-        <h2 class="section-heading">My Profile</h2>
-        <div id="profileAlert"></div>
-        <form id="profileForm">
-          <div class="grid">
-            <div class="form-group">
-              <label for="profileFirstName">First Name</label>
-              <input type="text" id="profileFirstName" title="First name" placeholder="First name" required>
-            </div>
-            <div class="form-group">
-              <label for="profileLastName">Last Name</label>
-              <input type="text" id="profileLastName" title="Last name" placeholder="Last name" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="profilePhone">Phone Number</label>
-            <input type="tel" id="profilePhone" title="Phone number" placeholder="+1 234 567 8900" required>
-          </div>
-          <div class="form-group">
-            <label for="profileAge">Age</label>
-            <input type="number" id="profileAge" title="Age (must be 18 or older)" placeholder="Age" required min="18">
-          </div>
-          <div class="form-group">
-            <label for="profileEmail">Email (readonly)</label>
-            <input type="email" id="profileEmail" title="Email address" readonly class="input-readonly">
-          </div>
-          <div class="form-group">
-            <label for="profileGender">Gender (readonly)</label>
-            <input type="text" id="profileGender" title="Gender" readonly class="input-readonly">
-          </div>
-          <div class="form-group">
-            <label for="profileRole">Role (readonly)</label>
-            <input type="text" id="profileRole" title="Account role" readonly class="input-readonly">
-          </div>
-          <button type="submit" class="btn btn-primary">Update Profile</button>
-        </form>
-      </div>
-    </div>
+    <!-- Insert profile HTML here -->
   </div>
 
   <!-- Rating Modal -->
-  <div id="ratingModal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Rate Your Call</h2>
-        <button class="close-btn" onclick="closeRatingModal()" type="button">&times;</button>
-      </div>
-      <div class="rating-modal-body">
-        <p class="rating-prompt">How was your experience?</p>
-        <div class="rating-stars" id="ratingStars">
-          <span class="star" onclick="setRating(1)">★</span>
-          <span class="star" onclick="setRating(2)">★</span>
-          <span class="star" onclick="setRating(3)">★</span>
-          <span class="star" onclick="setRating(4)">★</span>
-          <span class="star" onclick="setRating(5)">★</span>
-        </div>
-        <div class="form-group">
-          <label for="ratingFeedback">Feedback (optional)</label>
-          <textarea id="ratingFeedback" title="Optional feedback about your call experience" placeholder="Share your experience..." rows="3" maxlength="500"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="submitRating()" type="submit">Submit Rating</button>
-      </div>
-    </div>
-  </div>
+  <!-- Insert rating HTML here -->
   <script src="index.js"></script>
 </body>
 

@@ -1,0 +1,39 @@
+<div id="profileSection" class="hidden">
+  <div class="card">
+    <h2 class="section-heading">My Profile</h2>
+    <div id="profileAlert"></div>
+    <form id="profileForm">
+      <div class="grid">
+        <div class="form-group">
+          <label for="profileFirstName">First Name</label>
+          <input type="text" id="profileFirstName" title="First name" placeholder="First name" required>
+        </div>
+        <div class="form-group">
+          <label for="profileLastName">Last Name</label>
+          <input type="text" id="profileLastName" title="Last name" placeholder="Last name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="profilePhone">Phone Number</label>
+        <input type="tel" id="profilePhone" title="Phone number" placeholder="+1 234 567 8900" required>
+      </div>
+      <div class="form-group">
+        <label for="profileAge">Age</label>
+        <input type="number" id="profileAge" title="Age (must be 18 or older)" placeholder="Age" required min="18">
+      </div>
+      <div class="form-group">
+        <label for="profileEmail">Email (readonly)</label>
+        <input type="email" id="profileEmail" title="Email address" readonly class="input-readonly">
+      </div>
+      <div class="form-group">
+        <label for="profileGender">Gender (readonly)</label>
+        <input type="text" id="profileGender" title="Gender" readonly class="input-readonly">
+      </div>
+      <div class="form-group">
+        <label for="profileRole">Role (readonly)</label>
+        <input type="text" id="profileRole" title="Account role" readonly class="input-readonly">
+      </div>
+      <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+  </div>
+</div>
