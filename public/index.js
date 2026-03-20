@@ -123,8 +123,6 @@ function showAuth() {
 function showApp() {
   document.getElementById('authContainer').classList.add('hidden');
   document.getElementById('appContainer').classList.remove('hidden');
-  const user = JSON.parse(localStorage.getItem('user'));
-  document.getElementById('userName').textContent = user.firstName + ' ' + user.lastName;
 }
 
 // Attach form handlers after components are loaded
