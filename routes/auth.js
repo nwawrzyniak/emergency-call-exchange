@@ -11,6 +11,7 @@ const signToken = (id) => {
 };
 
 router.post('/register', [
+  body('userName').trim().notEmpty(),
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 6 }),
   body('firstName').trim().notEmpty(),
@@ -25,17 +26,23 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, firstName, lastName, phoneNumber, age, gender } = req.body;
+    const { userName, email, password, firstName, lastName, phoneNumber, age, gender } = req.body;
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
+    const existingUserName = await User.findOne({ where: { userName } });
+    if (existingUserName) {
+      return res.status(400).json({ error: 'Username already taken' });
+    }
+
     const userCount = await User.count();
     const role = userCount === 0 ? 'super-administrator' : 'user';
 
     const user = await User.create({
+      userName,
       email,
       password,
       firstName,
@@ -53,6 +60,7 @@ router.post('/register', [
       token,
       user: {
         id: user.id,
+        userName: user.userName,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -94,6 +102,7 @@ router.post('/login', [
       token,
       user: {
         id: user.id,
+        userName: user.userName,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,

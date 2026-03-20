@@ -148,6 +148,7 @@ function attachFormHandlers() {
     registerForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const userData = {
+        userName: document.getElementById('regUserName').value,
         email: document.getElementById('regEmail').value,
         password: document.getElementById('regPassword').value,
         firstName: document.getElementById('regFirstName').value,
@@ -180,10 +181,8 @@ function loadDashboard() {
 function loadProfile() {
   const userData = JSON.parse(localStorage.getItem('user'));
   if (userData) {
-    // Populate username field with email
-    document.getElementById('profileUsername').textContent = userData.email;
-    
-    // Populate other profile fields
+    // Populate profile fields
+    document.getElementById('profileUserName').textContent = userData.userName || '';
     document.getElementById('profileFirstName').value = userData.firstName || '';
     document.getElementById('profileLastName').value = userData.lastName || '';
     document.getElementById('profileEmail').innerHTML = userData.email || '';
