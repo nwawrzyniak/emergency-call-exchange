@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import { User } from '../models/index.js';
+import { protect, restrictTo } from '../middleware/auth.js';
+
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const { User } = require('../models');
-const { protect, restrictTo } = require('../middleware/auth');
 
 router.use(protect);
 
@@ -144,4 +145,4 @@ router.delete('/:id', restrictTo('super-administrator', 'administrator'), async 
   }
 });
 
-module.exports = router;
+export default router;

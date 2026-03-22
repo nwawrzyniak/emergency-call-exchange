@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/index.js';
+
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const { User } = require('../models');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -116,4 +117,4 @@ router.post('/login', [
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import { Op } from 'sequelize';
+import { CallRequest, User } from '../models/index.js';
+import { protect } from '../middleware/auth.js';
+
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const { CallRequest, User } = require('../models');
-const { protect } = require('../middleware/auth');
-const { Op } = require('sequelize');
 
 router.use(protect);
 
@@ -279,4 +280,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
