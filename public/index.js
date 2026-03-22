@@ -37,7 +37,7 @@ function showSection(section) {
 
   // Show selected section
   document.getElementById(section + 'Section').classList.remove('hidden');
-  
+
   // Load profile data if profile section is being shown
   if (section === 'profile') {
     loadProfile();
@@ -134,18 +134,18 @@ function showApp() {
 function attachFormHandlers() {
   const loginForm = document.getElementById('loginForm');
   const registerForm = document.getElementById('registerForm');
-  
+
   if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       login(email, password);
     });
   }
-  
+
   if (registerForm) {
-    registerForm.addEventListener('submit', function(e) {
+    registerForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const userData = {
         userName: document.getElementById('regUserName').value,
@@ -189,7 +189,7 @@ function loadProfile() {
     document.getElementById('profileAge').value = userData.age || '';
     document.getElementById('profileGender').innerHTML = userData.gender || '';
     document.getElementById('profileRole').innerHTML = userData.role || '';
-    
+
     // Populate phone number if available (from stored profile data)
     const token = localStorage.getItem('token');
     if (token) {
@@ -198,13 +198,13 @@ function loadProfile() {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.user) {
-          document.getElementById('profilePhone').value = data.user.phoneNumber || '';
-        }
-      })
-      .catch(err => console.error('Error loading profile:', err));
+        .then(res => res.json())
+        .then(data => {
+          if (data.user) {
+            document.getElementById('profilePhone').value = data.user.phoneNumber || '';
+          }
+        })
+        .catch(err => console.error('Error loading profile:', err));
     }
   }
 }

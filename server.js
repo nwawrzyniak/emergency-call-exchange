@@ -49,7 +49,7 @@ app.get('/health', (req, res) => {
 
 // API info endpoint
 app.get('/api', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Emergency Call Exchange API',
     version: '1.0.0',
     endpoints: {

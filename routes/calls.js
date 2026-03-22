@@ -29,7 +29,7 @@ router.post('/request', [
     });
 
     const match = await findMatch(callRequest);
-    
+
     if (match) {
       callRequest.callerId = match.id;
       callRequest.status = 'matched';
@@ -233,7 +233,7 @@ router.post('/:id/complete', [
 
     callRequest.status = 'completed';
     callRequest.completedAt = new Date();
-    
+
     if (req.body.rating && callRequest.callerId) {
       callRequest.rating = req.body.rating;
       callRequest.feedback = req.body.feedback;
@@ -241,7 +241,7 @@ router.post('/:id/complete', [
       const caller = await User.findByPk(callRequest.callerId);
       const newCount = caller.ratingCount + 1;
       const newAverage = ((caller.ratingAverage * caller.ratingCount) + req.body.rating) / newCount;
-      
+
       caller.ratingAverage = newAverage;
       caller.ratingCount = newCount;
       await caller.save();

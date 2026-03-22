@@ -8,7 +8,7 @@ function promptUser(question) {
     input: process.stdin,
     output: process.stdout
   });
-  
+
   return new Promise((resolve) => {
     rl.question(question, (answer) => {
       rl.close();
@@ -20,22 +20,22 @@ function promptUser(question) {
 function findPackageJson(startDir) {
   let currentDir = path.resolve(startDir || process.cwd());
   const root = path.parse(currentDir).root;
-  
+
   while (true) {
     const pkgPath = path.join(currentDir, 'package.json');
-    
+
     console.log(`Looking for package.json in: ${currentDir}`);
-    
+
     if (fs.existsSync(pkgPath)) {
       console.log(`✓ Found package.json at: ${pkgPath}\n`);
       return pkgPath;
     }
-    
+
     if (currentDir === root) {
       console.log('✗ Reached root directory without finding package.json\n');
       return null;
     }
-    
+
     currentDir = path.dirname(currentDir);
   }
 }
@@ -57,14 +57,14 @@ const outputPath = process.argv[3] || 'package-updated.json';
 function fetchLatestVersion(packageName) {
   return new Promise((resolve, reject) => {
     const url = `https://registry.npmjs.org/${packageName}`;
-    
+
     https.get(url, (res) => {
       let data = '';
-      
+
       res.on('data', (chunk) => {
         data += chunk;
       });
-      
+
       res.on('end', () => {
         try {
           const json = JSON.parse(data);
@@ -82,15 +82,15 @@ function fetchLatestVersion(packageName) {
 
 async function updateDependencies(deps) {
   if (!deps) return deps;
-  
+
   const updated = {};
   const packages = Object.keys(deps);
-  
+
   for (const pkg of packages) {
     try {
       console.log(`Fetching latest version for ${pkg}...`);
       const latestVersion = await fetchLatestVersion(pkg);
-      
+
       if (latestVersion) {
         // Preserve the prefix (^, ~, etc.) if it exists
         const currentVersion = deps[pkg];
@@ -106,7 +106,7 @@ async function updateDependencies(deps) {
       updated[pkg] = deps[pkg];
     }
   }
-  
+
   return updated;
 }
 
@@ -116,39 +116,39 @@ async function main() {
     const pkgContent = fs.readFileSync(pkgPath, 'utf8');
     const pkg = JSON.parse(pkgContent);
     const originalPkg = JSON.parse(pkgContent);
-    
+
     // Check if bump-changes.txt exists
     const diffPath = path.join(path.dirname(pkgPath), 'bump-changes.txt');
     if (fs.existsSync(diffPath)) {
       console.log('\n⚠️  WARNING: bump-changes.txt already exists!');
       console.log('Please make sure you have checked all functionality from the previous bump.');
       const answer = await promptUser('\nDo you really want to continue? (yes/no): ');
-      
+
       if (answer !== 'yes' && answer !== 'y') {
         console.log('\nOperation cancelled.');
         process.exit(0);
       }
-      
+
       console.log('\nDeleting old bump-changes.txt...');
       fs.unlinkSync(diffPath);
       console.log('✓ Deleted old bump-changes.txt\n');
     }
-    
+
     console.log('\nUpdating dependencies...');
     pkg.dependencies = await updateDependencies(pkg.dependencies);
-    
+
     console.log('\nUpdating devDependencies...');
     pkg.devDependencies = await updateDependencies(pkg.devDependencies);
-    
+
     console.log(`\nWriting updated package.json to ${outputPath}...`);
     fs.writeFileSync(outputPath, JSON.stringify(pkg, null, 2) + '\n');
-    
+
     // Create diff file
     console.log('\nGenerating bump-changes.txt...');
     const diffLines = [];
     diffLines.push('Dependency Version Changes\n');
     diffLines.push('='.repeat(50) + '\n\n');
-    
+
     if (pkg.dependencies) {
       diffLines.push('Dependencies:\n');
       for (const [name, newVer] of Object.entries(pkg.dependencies)) {
@@ -159,7 +159,7 @@ async function main() {
       }
       diffLines.push('\n');
     }
-    
+
     if (pkg.devDependencies) {
       diffLines.push('Dev Dependencies:\n');
       for (const [name, newVer] of Object.entries(pkg.devDependencies)) {
@@ -169,20 +169,20 @@ async function main() {
         }
       }
     }
-    
+
     fs.writeFileSync(diffPath, diffLines.join(''));
     console.log(`✓ Changes saved to ${diffPath}`);
-    
+
     // Overwrite original package.json
     console.log(`\nOverwriting ${pkgPath}...`);
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
     console.log(`✓ Updated ${pkgPath}`);
-    
+
     // Delete temporary file
     console.log(`\nCleaning up ${outputPath}...`);
     fs.unlinkSync(outputPath);
     console.log(`✓ Deleted ${outputPath}`);
-    
+
     console.log('\nDone! ✓');
   } catch (err) {
     console.error('Error:', err.message);

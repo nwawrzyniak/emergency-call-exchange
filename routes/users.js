@@ -32,7 +32,7 @@ router.patch('/me', [
 
     const allowedFields = ['firstName', 'lastName', 'phoneNumber', 'age'];
     const updates = {};
-    
+
     Object.keys(req.body).forEach(key => {
       if (allowedFields.includes(key)) {
         updates[key] = req.body[key];
@@ -63,7 +63,7 @@ router.patch('/availability', [
     }
 
     const updates = {};
-    
+
     if (req.body.isAvailable !== undefined) updates.isAvailable = req.body.isAvailable;
     if (req.body.callForGenders) updates.callForGenders = req.body.callForGenders;
     if (req.body.callForAgeMin) updates.callForAgeMin = req.body.callForAgeMin;
@@ -101,7 +101,7 @@ router.patch('/:id/role', restrictTo('super-administrator', 'administrator'), [
     }
 
     const { role } = req.body;
-    
+
     if (req.user.role === 'administrator' && role === 'super-administrator') {
       return res.status(403).json({ error: 'Cannot promote to super-administrator' });
     }
@@ -128,7 +128,7 @@ router.patch('/:id/role', restrictTo('super-administrator', 'administrator'), [
 router.delete('/:id', restrictTo('super-administrator', 'administrator'), async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
