@@ -1,3 +1,11 @@
-Missing:
-- Language
-- BoD instead of age upon registration
+To Do:
+- Enter spoken language(s) in registration (with exactly one main language)
+- Set preferred language for incoming call (and make it default to the user's own main language)
+- Remove first name and last name from registration and from profile
+- Add "Main alias" to registration and profile
+- Make phone number unchangeable
+- Make date of birth unchangable
+- Make dates which are too recent unselectable in registration
+- Set default date to something older (currently it selects the current date)
+- Improve the date picker for registration in general. Use custom date picker?
+- Second password field in registation. Both passwords have to match.
