@@ -22,7 +22,7 @@ router.patch('/me', [
   body('firstName').optional().trim().notEmpty(),
   body('lastName').optional().trim().notEmpty(),
   body('phoneNumber').optional().trim().notEmpty(),
-  body('age').optional().isInt({ min: 18 })
+  body('dateOfBirth').optional().isISO8601()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -30,7 +30,21 @@ router.patch('/me', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const allowedFields = ['firstName', 'lastName', 'phoneNumber', 'age'];
+    // Validate age if dateOfBirth is provided
+    if (req.body.dateOfBirth) {
+      const birthDate = new Date(req.body.dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        return res.status(400).json({ error: 'You must be at least 18 years old' });
+      }
+    }
+
+    const allowedFields = ['firstName', 'lastName', 'phoneNumber', 'dateOfBirth'];
     const updates = {};
 
     Object.keys(req.body).forEach(key => {

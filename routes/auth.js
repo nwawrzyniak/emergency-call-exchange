@@ -18,7 +18,7 @@ router.post('/register', [
   body('firstName').trim().notEmpty(),
   body('lastName').trim().notEmpty(),
   body('phoneNumber').trim().notEmpty(),
-  body('age').isInt({ min: 18 }),
+  body('dateOfBirth').isISO8601(),
   body('gender').isIn(['male', 'female', 'non-binary', 'other'])
 ], async (req, res) => {
   try {
@@ -27,7 +27,19 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userName, email, password, firstName, lastName, phoneNumber, age, gender } = req.body;
+    const { userName, email, password, firstName, lastName, phoneNumber, dateOfBirth, gender } = req.body;
+
+    // Calculate age and validate
+    const birthDate = new Date(dateOfBirth);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    if (age < 18) {
+      return res.status(400).json({ error: 'You must be at least 18 years old to register' });
+    }
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -49,7 +61,7 @@ router.post('/register', [
       firstName,
       lastName,
       phoneNumber,
-      age,
+      dateOfBirth,
       gender,
       role
     });
@@ -65,9 +77,10 @@ router.post('/register', [
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        role: user.role,
+        dateOfBirth: user.dateOfBirth,
         age: user.age,
-        gender: user.gender
+        gender: user.gender,
+        role: user.role
       }
     });
   } catch (error) {
@@ -107,9 +120,10 @@ router.post('/login', [
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        role: user.role,
+        dateOfBirth: user.dateOfBirth,
         age: user.age,
-        gender: user.gender
+        gender: user.gender,
+        role: user.role
       }
     });
   } catch (error) {

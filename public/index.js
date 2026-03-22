@@ -114,6 +114,31 @@ async function register(userData) {
   }
 }
 
+async function updateProfile(profileData) {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(API_BASE + '/api/users/me', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(profileData)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      showAlert('Profile updated successfully', 'success');
+    } else {
+      showAlert(data.error || 'Profile update failed');
+    }
+  } catch (error) {
+    showAlert('Network error');
+  }
+}
+
 function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
@@ -154,10 +179,24 @@ function attachFormHandlers() {
         firstName: document.getElementById('regFirstName').value,
         lastName: document.getElementById('regLastName').value,
         phoneNumber: document.getElementById('regPhone').value,
-        age: parseInt(document.getElementById('regAge').value),
+        dateOfBirth: document.getElementById('regDateOfBirth').value,
         gender: document.getElementById('regGender').value
       };
       register(userData);
+    });
+  }
+
+  const profileForm = document.getElementById('profileForm');
+  if (profileForm) {
+    profileForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const profileData = {
+        firstName: document.getElementById('profileFirstName').value,
+        lastName: document.getElementById('profileLastName').value,
+        phoneNumber: document.getElementById('profilePhone').value,
+        dateOfBirth: document.getElementById('profileDateOfBirth').value
+      };
+      updateProfile(profileData);
     });
   }
 }
@@ -186,14 +225,17 @@ function loadProfile() {
     document.getElementById('profileFirstName').value = userData.firstName || '';
     document.getElementById('profileLastName').value = userData.lastName || '';
     document.getElementById('profileEmail').innerHTML = userData.email || '';
-    document.getElementById('profileAge').value = userData.age || '';
+    if (userData.dateOfBirth) {
+      const date = new Date(userData.dateOfBirth);
+      document.getElementById('profileDateOfBirth').value = date.toISOString().split('T')[0];
+    }
     document.getElementById('profileGender').innerHTML = userData.gender || '';
     document.getElementById('profileRole').innerHTML = userData.role || '';
 
     // Populate phone number if available (from stored profile data)
     const token = localStorage.getItem('token');
     if (token) {
-      fetch(API_BASE + '/api/users/profile', {
+      fetch(API_BASE + '/api/users/me', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
