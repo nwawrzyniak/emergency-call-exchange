@@ -16,3 +16,4 @@ To do:
   - Start tag seen without seeing a doctype first. Expected "<!DOCTYPE html>".
   - Element "head" is missing a required instance of child element "title".
   - Consider adding a "lang" attribute to the "html" start tag to declare the language of this document.
+- Actual functionality
