@@ -1,11 +1,18 @@
-To Do:
+To do:
 - Enter spoken language(s) in registration (with exactly one main language)
 - Set preferred language for incoming call (and make it default to the user's own main language)
 - Remove first name and last name from registration and from profile
 - Add "Main alias" to registration and profile
-- Make phone number unchangeable
-- Make date of birth unchangable
-- Make dates which are too recent unselectable in registration
-- Set default date to something older (currently it selects the current date)
-- Improve the date picker for registration in general. Use custom date picker?
+- Phone numbers:
+  - Make phone number unchangeable in profile
+  - Validate user's phone number somehow so users cannot enter fake numbers
 - Second password field in registation. Both passwords have to match.
+- Improve everything related to birth of date:
+  - Make date of birth unchangable
+  - Make dates which are too recent unselectable in registration
+  - Set default date to something older (currently it selects the current date)
+  - Improve the date picker for registration in general. Use custom date picker?
+- Fix HTML warnings in component HTML files (as they make no sense in component snippets):
+  - Start tag seen without seeing a doctype first. Expected "<!DOCTYPE html>".
+  - Element "head" is missing a required instance of child element "title".
+  - Consider adding a "lang" attribute to the "html" start tag to declare the language of this document.
