@@ -27,18 +27,20 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   background: white;
-  padding: 20px 30px;
+  padding: 20px 20px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   margin-bottom: 30px;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 #main-logo {
   font-size: 24px;
   font-weight: bold;
   color: #667eea;
+  width: fit-content;
 }
 
 #nav-buttons {
@@ -454,6 +456,7 @@ select#prefGender {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
+  aspect-ratio: 1;
 }
 
 .burger-btn:hover {
