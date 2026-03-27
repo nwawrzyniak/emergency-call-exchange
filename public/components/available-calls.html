@@ -1,8 +1,11 @@
 <div id="availableCallsSection" class="hidden">
   <div class="card">
+    <h2 class="section-heading">Available Call Requests</h2>
+
     <div class="availability-toggle">
       <label class="switch" for="availabilityToggle">
-        <input type="checkbox" id="availabilityToggle" title="Toggle availability for calls" onchange="toggleAvailability()">
+        <input type="checkbox" id="availabilityToggle" title="Toggle availability for calls"
+          onchange="toggleAvailability()">
         <span class="slider"></span>
       </label>
       <div>
@@ -14,41 +17,40 @@
     <div id="availabilitySettings" class="hidden availability-settings-panel">
       <h3 class="section-heading-sm">Call Preferences</h3>
       <div class="form-group">
-        <fieldset>
-          <legend id="callForLabel">I'm willing to call for:</legend>
-          <div class="checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" class="genderPref" value="any" title="Willing to call any gender"> Any Gender
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" class="genderPref" value="male" title="Willing to call male requesters"> Male
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" class="genderPref" value="female" title="Willing to call female requesters"> Female
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" class="genderPref" value="non-binary" title="Willing to call non-binary requesters">
-              Non-binary
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" class="genderPref" value="other" title="Willing to call requesters of other genders">
-              Other
-            </label>
-          </div>
-        </fieldset>
+        <legend id="callForLabel">I'm willing to call for:</legend>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" class="genderPref" value="any" title="Willing to call any gender"> Any Gender
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="genderPref" value="male" title="Willing to call male requesters"> Male
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="genderPref" value="female" title="Willing to call female requesters"> Female
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="genderPref" value="non-binary" title="Willing to call non-binary requesters">
+            Non-binary
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="genderPref" value="other" title="Willing to call requesters of other genders">
+            Other
+          </label>
+        </div>
       </div>
       <div class="form-group">
         <label for="callAgeMin">Age Range I'm willing to call:</label>
         <div class="age-range-row">
-          <input type="number" id="callAgeMin" title="Minimum age of requester" placeholder="Min" min="18" value="18" class="age-input-md">
+          <input type="number" id="callAgeMin" title="Minimum age of requester" placeholder="Min" min="18" value="18"
+            class="age-input-md">
           <span>to</span>
-          <input type="number" id="callAgeMax" title="Maximum age of requester" placeholder="Max" max="120" value="120" class="age-input-md">
+          <input type="number" id="callAgeMax" title="Maximum age of requester" placeholder="Max" max="120" value="120"
+            class="age-input-md">
         </div>
       </div>
       <button class="btn btn-primary" onclick="saveCallPreferences()" type="submit">Save Preferences</button>
     </div>
 
-    <h2 class="section-heading">Available Call Requests</h2>
     <div id="availableCallsList"></div>
   </div>
 </div>

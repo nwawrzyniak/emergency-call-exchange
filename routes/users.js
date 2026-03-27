@@ -63,10 +63,11 @@ router.patch('/me', [
 });
 
 router.patch('/availability', [
-  body('isAvailable').isBoolean(),
+  body('isAvailable').optional().isBoolean().toBoolean(),
   body('callForGenders').optional().isArray(),
-  body('callForAgeMin').optional().isInt({ min: 18 }),
-  body('callForAgeMax').optional().isInt({ max: 120 })
+  body('callForGenders.*').optional().isIn(['male', 'female', 'non-binary', 'other', 'any']),
+  body('callForAgeMin').optional().isInt({ min: 18 }).toInt(),
+  body('callForAgeMax').optional().isInt({ max: 120 }).toInt()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -77,9 +78,13 @@ router.patch('/availability', [
     const updates = {};
 
     if (req.body.isAvailable !== undefined) updates.isAvailable = req.body.isAvailable;
-    if (req.body.callForGenders) updates.callForGenders = req.body.callForGenders;
-    if (req.body.callForAgeMin) updates.callForAgeMin = req.body.callForAgeMin;
-    if (req.body.callForAgeMax) updates.callForAgeMax = req.body.callForAgeMax;
+    if (req.body.callForGenders !== undefined) updates.callForGenders = req.body.callForGenders;
+    if (req.body.callForAgeMin !== undefined) updates.callForAgeMin = req.body.callForAgeMin;
+    if (req.body.callForAgeMax !== undefined) updates.callForAgeMax = req.body.callForAgeMax;
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'No valid fields provided' });
+    }
 
     await User.update(updates, { where: { id: req.user.id } });
     const user = await User.findByPk(req.user.id, {

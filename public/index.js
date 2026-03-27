@@ -44,6 +44,11 @@ function showSection(section) {
     loadProfile();
   }
 
+  // Load availability state when the available calls section is shown
+  if (section === 'availableCalls') {
+    loadAvailabilityState();
+  }
+
   // Close burger menu if open
   closeBurgerMenu();
 }
@@ -284,12 +289,155 @@ function loadProfile() {
   }
 }
 
-function toggleAvailability() {
-  // Toggle availability
+// ------------------------------------------------------------
+// Availability: load state from server and sync the UI
+// ------------------------------------------------------------
+async function loadAvailabilityState() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const response = await fetch(API_BASE + '/api/users/me', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!response.ok) return;
+
+    const data = await response.json();
+    const user = data.user;
+    if (!user) return;
+
+    // Sync toggle
+    const toggle = document.getElementById('availabilityToggle');
+    if (toggle) {
+      toggle.checked = !!user.isAvailable;
+    }
+
+    // Show/hide settings panel to match saved state
+    const settingsPanel = document.getElementById('availabilitySettings');
+    if (settingsPanel) {
+      if (user.isAvailable) {
+        settingsPanel.classList.remove('hidden');
+      } else {
+        settingsPanel.classList.add('hidden');
+      }
+    }
+
+    // Restore saved gender preferences
+    if (Array.isArray(user.callForGenders)) {
+      document.querySelectorAll('.genderPref').forEach(cb => {
+        cb.checked = user.callForGenders.includes(cb.value);
+      });
+    }
+
+    // Restore saved age range
+    const ageMin = document.getElementById('callAgeMin');
+    const ageMax = document.getElementById('callAgeMax');
+    if (ageMin) ageMin.value = user.callForAgeMin ?? 18;
+    if (ageMax) ageMax.value = user.callForAgeMax ?? 120;
+
+  } catch (err) {
+    console.error('Error loading availability state:', err);
+  }
 }
 
-function saveCallPreferences() {
-  // Save preferences
+// ------------------------------------------------------------
+// Toggle availability on/off and immediately persist to server
+// ------------------------------------------------------------
+async function toggleAvailability() {
+  const toggle = document.getElementById('availabilityToggle');
+  const isAvailable = toggle.checked;
+
+  // Optimistically show/hide the settings panel
+  const settingsPanel = document.getElementById('availabilitySettings');
+  if (settingsPanel) {
+    if (isAvailable) {
+      settingsPanel.classList.remove('hidden');
+    } else {
+      settingsPanel.classList.add('hidden');
+    }
+  }
+
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const response = await fetch(API_BASE + '/api/users/availability', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ isAvailable })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Keep localStorage in sync so other parts of the app see the latest state
+      localStorage.setItem('user', JSON.stringify(data.user));
+    } else {
+      // Revert the toggle if the server rejected the change
+      toggle.checked = !isAvailable;
+      if (settingsPanel) {
+        if (!isAvailable) {
+          settingsPanel.classList.remove('hidden');
+        } else {
+          settingsPanel.classList.add('hidden');
+        }
+      }
+      showAlert(data.error || 'Could not update availability');
+    }
+  } catch (err) {
+    // Revert on network error
+    toggle.checked = !isAvailable;
+    showAlert('Network error — availability not saved');
+  }
+}
+
+// ------------------------------------------------------------
+// Save call preferences (gender filter + age range)
+// ------------------------------------------------------------
+async function saveCallPreferences() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  // Collect selected genders
+  const selectedGenders = Array.from(document.querySelectorAll('.genderPref:checked'))
+    .map(cb => cb.value);
+
+  const ageMin = parseInt(document.getElementById('callAgeMin').value, 10) || 18;
+  const ageMax = parseInt(document.getElementById('callAgeMax').value, 10) || 120;
+
+  if (ageMin > ageMax) {
+    showAlert('Minimum age cannot be greater than maximum age');
+    return;
+  }
+
+  try {
+    const response = await fetch(API_BASE + '/api/users/availability', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        callForGenders: selectedGenders,
+        callForAgeMin: ageMin,
+        callForAgeMax: ageMax
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      showAlert('Preferences saved', 'success');
+    } else {
+      showAlert(data.error || 'Could not save preferences');
+    }
+  } catch (err) {
+    showAlert('Network error — preferences not saved');
+  }
 }
 
 function closeRatingModal() {
