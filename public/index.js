@@ -43,7 +43,45 @@ function showSection(section) {
   if (section === 'profile') {
     loadProfile();
   }
+
+  // Close burger menu if open
+  closeBurgerMenu();
 }
+
+function toggleBurgerMenu() {
+  const btn = document.getElementById('burger-btn');
+  const overlay = document.getElementById('nav-overlay');
+
+  const isOpen = overlay.classList.contains('open');
+
+  if (isOpen) {
+    closeBurgerMenu();
+  } else {
+    overlay.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeBurgerMenu() {
+  const btn = document.getElementById('burger-btn');
+  const overlay = document.getElementById('nav-overlay');
+
+  if (!btn || !overlay) return;
+
+  overlay.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// Close overlay on Escape key
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeBurgerMenu();
+});
 
 function switchAuthTab(tab) {
   const loginTab = document.querySelector('.tab-btn[onclick="switchAuthTab(\'login\')"]');
