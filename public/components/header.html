@@ -5,27 +5,12 @@
     <span></span>
     <span></span>
   </button>
-  <div id="nav-buttons" class="nav-buttons">
+  <div id="nav-buttons" class="nav-buttons" aria-hidden="false">
     <button class="btn btn-secondary" onclick="showSection('dashboard')" type="button">Dashboard</button>
     <button class="btn btn-secondary" onclick="showSection('myRequests')" type="button">My Requests</button>
     <button class="btn btn-secondary" onclick="showSection('availableCalls')" type="button">Available Calls</button>
     <button class="btn btn-secondary" onclick="showSection('leaderboard')" type="button">Leaderboard</button>
     <button class="btn btn-secondary" onclick="showSection('profile')" type="button">Profile</button>
     <button class="btn btn-danger" onclick="logout()" type="button">Logout</button>
-  </div>
-</div>
-
-<!-- Full-page nav overlay -->
-<div id="nav-overlay" class="nav-overlay" aria-hidden="true">
-  <div class="nav-overlay-inner">
-    <button class="nav-overlay-close" onclick="closeBurgerMenu()" aria-label="Close navigation">✕</button>
-    <nav class="nav-overlay-links">
-      <button onclick="showSection('dashboard')" type="button">Dashboard</button>
-      <button onclick="showSection('myRequests')" type="button">My Requests</button>
-      <button onclick="showSection('availableCalls')" type="button">Available Calls</button>
-      <button onclick="showSection('leaderboard')" type="button">Leaderboard</button>
-      <button onclick="showSection('profile')" type="button">Profile</button>
-      <button class="overlay-logout" onclick="logout()" type="button">Logout</button>
-    </nav>
   </div>
 </div>

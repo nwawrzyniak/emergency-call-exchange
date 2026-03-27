@@ -50,31 +50,31 @@ function showSection(section) {
 
 function toggleBurgerMenu() {
   const btn = document.getElementById('burger-btn');
-  const overlay = document.getElementById('nav-overlay');
+  const nav = document.getElementById('nav-buttons');
 
-  const isOpen = overlay.classList.contains('open');
+  const isOpen = nav.classList.contains('open');
 
   if (isOpen) {
     closeBurgerMenu();
   } else {
-    overlay.classList.add('open');
+    nav.classList.add('open');
     btn.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
-    overlay.setAttribute('aria-hidden', 'false');
+    nav.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 }
 
 function closeBurgerMenu() {
   const btn = document.getElementById('burger-btn');
-  const overlay = document.getElementById('nav-overlay');
+  const nav = document.getElementById('nav-buttons');
 
-  if (!btn || !overlay) return;
+  if (!btn || !nav) return;
 
-  overlay.classList.remove('open');
+  nav.classList.remove('open');
   btn.classList.remove('open');
   btn.setAttribute('aria-expanded', 'false');
-  overlay.setAttribute('aria-hidden', 'true');
+  nav.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 }
 
