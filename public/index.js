@@ -33,6 +33,7 @@ function showSection(section) {
   document.getElementById('dashboardSection').classList.add('hidden');
   document.getElementById('myRequestsSection').classList.add('hidden');
   document.getElementById('availableCallsSection').classList.add('hidden');
+  document.getElementById('leaderboardSection').classList.add('hidden');
   document.getElementById('profileSection').classList.add('hidden');
 
   // Show selected section
