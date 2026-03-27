@@ -19,8 +19,6 @@ router.get('/me', async (req, res) => {
 });
 
 router.patch('/me', [
-  body('firstName').optional().trim().notEmpty(),
-  body('lastName').optional().trim().notEmpty(),
   body('phoneNumber').optional().trim().notEmpty(),
   body('dateOfBirth').optional().isISO8601()
 ], async (req, res) => {
@@ -44,7 +42,7 @@ router.patch('/me', [
       }
     }
 
-    const allowedFields = ['firstName', 'lastName', 'phoneNumber', 'dateOfBirth'];
+    const allowedFields = ['phoneNumber', 'dateOfBirth'];
     const updates = {};
 
     Object.keys(req.body).forEach(key => {

@@ -15,8 +15,6 @@ router.post('/register', [
   body('userName').trim().notEmpty(),
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 6 }),
-  body('firstName').trim().notEmpty(),
-  body('lastName').trim().notEmpty(),
   body('phoneNumber').trim().notEmpty(),
   body('dateOfBirth').isISO8601(),
   body('gender').isIn(['male', 'female', 'non-binary', 'other'])
@@ -27,7 +25,7 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userName, email, password, firstName, lastName, phoneNumber, dateOfBirth, gender } = req.body;
+    const { userName, email, password, phoneNumber, dateOfBirth, gender } = req.body;
 
     // Calculate age and validate
     const birthDate = new Date(dateOfBirth);
@@ -58,8 +56,6 @@ router.post('/register', [
       userName,
       email,
       password,
-      firstName,
-      lastName,
       phoneNumber,
       dateOfBirth,
       gender,
@@ -75,8 +71,6 @@ router.post('/register', [
         id: user.id,
         userName: user.userName,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
         dateOfBirth: user.dateOfBirth,
         age: user.age,
         gender: user.gender,
@@ -118,8 +112,6 @@ router.post('/login', [
         id: user.id,
         userName: user.userName,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
         dateOfBirth: user.dateOfBirth,
         age: user.age,
         gender: user.gender,

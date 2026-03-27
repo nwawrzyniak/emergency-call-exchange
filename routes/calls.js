@@ -38,8 +38,8 @@ router.post('/request', [
 
       await callRequest.reload({
         include: [
-          { model: User, as: 'requester', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] },
-          { model: User, as: 'caller', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] }
+          { model: User, as: 'requester', attributes: ['id', 'phoneNumber', 'age', 'gender'] },
+          { model: User, as: 'caller', attributes: ['id', 'phoneNumber', 'age', 'gender'] }
         ]
       });
 
@@ -104,7 +104,7 @@ router.get('/my-requests', async (req, res) => {
     const requests = await CallRequest.findAll({
       where: { requesterId: req.user.id },
       include: [
-        { model: User, as: 'caller', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] }
+        { model: User, as: 'caller', attributes: ['id', 'phoneNumber', 'age', 'gender'] }
       ],
       order: [['createdAt', 'DESC']]
     });
@@ -120,7 +120,7 @@ router.get('/my-calls', async (req, res) => {
     const calls = await CallRequest.findAll({
       where: { callerId: req.user.id },
       include: [
-        { model: User, as: 'requester', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] }
+        { model: User, as: 'requester', attributes: ['id', 'phoneNumber', 'age', 'gender'] }
       ],
       order: [['createdAt', 'DESC']]
     });
@@ -139,7 +139,7 @@ router.get('/pending', async (req, res) => {
         callTime: { [Op.gte]: new Date() }
       },
       include: [
-        { model: User, as: 'requester', attributes: ['id', 'firstName', 'lastName', 'age', 'gender'] }
+        { model: User, as: 'requester', attributes: ['id', 'age', 'gender'] }
       ],
       order: [['callTime', 'ASC']]
     });
@@ -200,8 +200,8 @@ router.post('/:id/accept', async (req, res) => {
 
     await callRequest.reload({
       include: [
-        { model: User, as: 'requester', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] },
-        { model: User, as: 'caller', attributes: ['id', 'firstName', 'lastName', 'phoneNumber', 'age', 'gender'] }
+        { model: User, as: 'requester', attributes: ['id',  'phoneNumber', 'age', 'gender'] },
+        { model: User, as: 'caller', attributes: ['id', 'phoneNumber', 'age', 'gender'] }
       ]
     });
 

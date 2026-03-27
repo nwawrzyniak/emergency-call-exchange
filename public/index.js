@@ -257,8 +257,6 @@ function loadProfile() {
   if (userData) {
     // Populate profile fields
     document.getElementById('profileUserName').textContent = userData.userName || '';
-    document.getElementById('profileFirstName').value = userData.firstName || '';
-    document.getElementById('profileLastName').value = userData.lastName || '';
     document.getElementById('profileEmail').innerHTML = userData.email || '';
     if (userData.dateOfBirth) {
       const date = new Date(userData.dateOfBirth);
