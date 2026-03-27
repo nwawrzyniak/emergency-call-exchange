@@ -485,12 +485,6 @@ select#prefGender {
 }
 
 @media (max-width: 1224px) {
-  #header {
-    position: relative;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
   .burger-btn {
     display: flex;
   }
