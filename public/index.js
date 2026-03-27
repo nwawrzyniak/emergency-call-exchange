@@ -215,8 +215,6 @@ function attachFormHandlers() {
         userName: document.getElementById('regUserName').value,
         email: document.getElementById('regEmail').value,
         password: document.getElementById('regPassword').value,
-        firstName: document.getElementById('regFirstName').value,
-        lastName: document.getElementById('regLastName').value,
         phoneNumber: document.getElementById('regPhone').value,
         dateOfBirth: document.getElementById('regDateOfBirth').value,
         gender: document.getElementById('regGender').value
@@ -230,8 +228,6 @@ function attachFormHandlers() {
     profileForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const profileData = {
-        firstName: document.getElementById('profileFirstName').value,
-        lastName: document.getElementById('profileLastName').value,
         phoneNumber: document.getElementById('profilePhone').value,
         dateOfBirth: document.getElementById('profileDateOfBirth').value
       };
