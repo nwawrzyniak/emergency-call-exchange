@@ -33,13 +33,13 @@ body {
   align-items: center;
 }
 
-.logo {
+#main-logo {
   font-size: 24px;
   font-weight: bold;
   color: #667eea;
 }
 
-.user-info {
+#nav-buttons {
   display: flex;
   gap: 20px;
   align-items: center;
@@ -436,4 +436,10 @@ select#prefGender {
 select#prefGender {
   max-width: 100%;
   box-sizing: border-box;
+}
+
+@media (max-width: 1224px) {
+  #header {
+
+  }
 }
