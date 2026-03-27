@@ -22,7 +22,7 @@ body {
   margin-bottom: 30px;
 }
 
-.header {
+#header {
   background: white;
   padding: 20px 30px;
   border-radius: 15px;
@@ -440,6 +440,6 @@ select#prefGender {
 
 @media (max-width: 1224px) {
   #header {
-
+    
   }
 }
