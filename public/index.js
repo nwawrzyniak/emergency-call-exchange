@@ -214,12 +214,57 @@ function attachFormHandlers() {
   }
 
   if (registerForm) {
+    // Live validation: warn when password is too short
+    const regPassword = document.getElementById('regPassword');
+    if (regPassword) {
+      regPassword.addEventListener('input', function () {
+        const errorEl = document.getElementById('regPasswordError');
+        if (this.value.length > 0 && this.value.length < 6) {
+          errorEl.style.display = 'block';
+          this.setCustomValidity('Password must be at least 6 characters.');
+        } else {
+          errorEl.style.display = 'none';
+          this.setCustomValidity('');
+        }
+      });
+    }
+
+    // Live validation: check passwords match as the user types in the confirm field
+    const regPasswordConfirm = document.getElementById('regPasswordConfirm');
+    if (regPasswordConfirm) {
+      regPasswordConfirm.addEventListener('input', function () {
+        const password = document.getElementById('regPassword').value;
+        const errorEl = document.getElementById('regPasswordConfirmError');
+        if (this.value && this.value !== password) {
+          errorEl.style.display = 'block';
+          this.setCustomValidity('Passwords do not match.');
+        } else {
+          errorEl.style.display = 'none';
+          this.setCustomValidity('');
+        }
+      });
+    }
+
     registerForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regPasswordConfirm').value;
+      const errorEl = document.getElementById('regPasswordConfirmError');
+
+      if (password !== confirmPassword) {
+        errorEl.style.display = 'block';
+        document.getElementById('regPasswordConfirm').setCustomValidity('Passwords do not match.');
+        document.getElementById('regPasswordConfirm').focus();
+        return;
+      }
+
+      errorEl.style.display = 'none';
+      document.getElementById('regPasswordConfirm').setCustomValidity('');
+
       const userData = {
         userName: document.getElementById('regUserName').value,
         email: document.getElementById('regEmail').value,
-        password: document.getElementById('regPassword').value,
+        password,
         phoneNumber: document.getElementById('regPhone').value,
         dateOfBirth: document.getElementById('regDateOfBirth').value,
         gender: document.getElementById('regGender').value

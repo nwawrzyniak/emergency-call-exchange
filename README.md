@@ -1,7 +1,6 @@
 To do:
 - Enter spoken language(s) in registration (with exactly one main language)
 - Set preferred language for incoming call (and make it default to the user's own main language)
-- Remove first name and last name from registration and from profile
 - Add "Main alias" to registration and profile
 - Phone numbers:
   - Make phone number unchangeable in profile
@@ -17,3 +16,4 @@ To do:
   - Element "head" is missing a required instance of child element "title".
   - Consider adding a "lang" attribute to the "html" start tag to declare the language of this document.
 - Actual functionality
+- When "calls made" is 0 show "-" instead of "0.0" as rating
