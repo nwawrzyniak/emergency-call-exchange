@@ -10,9 +10,5 @@ To do:
   - Make dates which are too recent unselectable in registration
   - Set default date to something older (currently it selects the current date)
   - Improve the date picker for registration in general. Use custom date picker?
-- Fix HTML warnings in component HTML files (as they make no sense in component snippets):
-  - Start tag seen without seeing a doctype first. Expected "<!DOCTYPE html>".
-  - Element "head" is missing a required instance of child element "title".
-  - Consider adding a "lang" attribute to the "html" start tag to declare the language of this document.
 - Actual functionality
 - When "calls made" is 0 show "-" instead of "0.0" as rating
