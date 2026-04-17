@@ -5,7 +5,6 @@ To do:
 - Phone numbers:
   - Make phone number unchangeable in profile
   - Validate user's phone number somehow so users cannot enter fake numbers
-- Second password field in registation. Both passwords have to match.
 - Improve everything related to birth of date:
   - Make date of birth unchangable
   - Make dates which are too recent unselectable in registration
