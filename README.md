@@ -11,4 +11,3 @@ To do:
   - Set default date to something older (currently it selects the current date)
   - Improve the date picker for registration in general. Use custom date picker?
 - Actual functionality
-- When "calls made" is 0 show "-" instead of "0.0" as rating
