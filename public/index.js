@@ -297,9 +297,44 @@ loadComponents().then(() => {
   }
 });
 
-// Placeholder for other functions
-function loadDashboard() {
-  // Load user stats, etc.
+// Load dashboard stats from the server
+async function loadDashboard() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const [userRes, myRequestsRes, myCallsRes, pendingRes] = await Promise.all([
+      fetch(API_BASE + '/api/users/me', { headers: { 'Authorization': `Bearer ${token}` } }),
+      fetch(API_BASE + '/api/calls/my-requests', { headers: { 'Authorization': `Bearer ${token}` } }),
+      fetch(API_BASE + '/api/calls/my-calls', { headers: { 'Authorization': `Bearer ${token}` } }),
+      fetch(API_BASE + '/api/calls/pending', { headers: { 'Authorization': `Bearer ${token}` } })
+    ]);
+
+    if (userRes.ok) {
+      const { user } = await userRes.json();
+      const hasRatings = user.ratingCount > 0;
+      document.getElementById('statRating').textContent = hasRatings
+        ? user.ratingAverage.toFixed(1)
+        : '—';
+    }
+
+    if (myRequestsRes.ok) {
+      const { count } = await myRequestsRes.json();
+      document.getElementById('statRequests').textContent = count ?? 0;
+    }
+
+    if (myCallsRes.ok) {
+      const { count } = await myCallsRes.json();
+      document.getElementById('statCalls').textContent = count ?? 0;
+    }
+
+    if (pendingRes.ok) {
+      const { count } = await pendingRes.json();
+      document.getElementById('statAvailable').textContent = count ?? 0;
+    }
+  } catch (err) {
+    console.error('Error loading dashboard:', err);
+  }
 }
 
 function loadProfile() {
