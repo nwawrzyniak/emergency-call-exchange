@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 
+const app = express();
+
 import configureSecurity from './server/security.js';
 import configureCors from './server/cors.js';
 import configureServeStatic from './server/serve-static.js';
@@ -11,8 +13,6 @@ import configureAPI from './server/api.js';
 import configureServeIndex from './server/serve-index.js';
 import configureErrorHandling from './server/error-handling.js';
 import connectDatabaseAndStartServer from './server/server.js';
-
-const app = express();
 
 configureSecurity(app);
 configureCors(app);
