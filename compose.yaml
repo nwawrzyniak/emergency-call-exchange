@@ -6,9 +6,11 @@ services:
       - DB_PATH=${DB_PATH}
       - JWT_SECRET=${JWT_SECRET}
       - NODE_ENV=${NODE_ENV}
+      - REDIS_URL=${REDIS_URL}
     restart: unless-stopped
     networks:
       - traefik-network
+      - redis-network
     volumes:
       - ./sqlite-data:/data
     labels:
@@ -21,4 +23,6 @@ services:
 
 networks:
   traefik-network:
+    external: true
+  redis-network:
     external: true
